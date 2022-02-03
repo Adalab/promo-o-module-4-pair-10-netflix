@@ -7,6 +7,13 @@ const server = express();
 server.use(cors());
 server.use(express.json());
 
+//servidores de estáticos
+const staticServerPath = "./src/public-react";
+server.use(express.static(staticServerPath));
+
+const staticServerPathImages = "./src/public-movies-images";
+server.use(express.static(staticServerPathImages));
+
 // init express aplication
 const serverPort = 4000;
 server.listen(serverPort, () => {
