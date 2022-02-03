@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const moviesFromJson = require("./data/movies.json");
+const users = require("./data/users.json");
 
 // create and config server
 const server = express();
@@ -22,11 +23,36 @@ server.listen(serverPort, () => {
 
 //endpoint get movies
 server.get("/movies", (req, res) => {
-  console.log("Petición a la ruta GET /users");
-
   const response = {
     success: true,
     movies: moviesFromJson,
   };
   res.json(response);
+});
+
+//endpoint get users
+server.post("/login", (req, res) => {
+  // const listOfUsers = {
+  //   success: true,
+  //   users: users,
+  // };
+
+  // res.json(listOfUsers);
+  const findUsers = users.find(
+    (user) =>
+      user.email === req.body.email && user.password === req.body.password
+  );
+
+  if (findUsers !== "") {
+    res.json({
+      success: true,
+      userId: findUsers.id,
+    });
+  } else {
+    res.json({
+      sucess: false,
+      errorMessage: "usuario/a no encontrado/a",
+    });
+    console.log("NO ERES USUARIA");
+  }
 });
