@@ -43,16 +43,16 @@ server.post("/login", (req, res) => {
       user.email === req.body.email && user.password === req.body.password
   );
 
-  if (findUsers !== "") {
+  if (findUsers) {
     res.json({
       success: true,
       userId: findUsers.id,
     });
   } else {
-    res.json({
-      sucess: false,
-      errorMessage: "usuario/a no encontrado/a",
-    });
     console.log("NO ERES USUARIA");
+    res.json({
+      success: false,
+      errorMessage: "Usuario no encontrado",
+    });
   }
 });
