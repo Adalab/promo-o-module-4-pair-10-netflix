@@ -3,10 +3,14 @@ const cors = require("cors");
 const moviesFromJson = require("./data/movies.json");
 const users = require("./data/users.json");
 
+
 // create and config server
 const server = express();
 server.use(cors());
 server.use(express.json());
+
+// motor de plantillas
+server.set('view engine', 'ejs');
 
 //endpoint getId
 
@@ -15,17 +19,8 @@ server.get('/movie/:movieId', (req, res) => {
   const foundMovie = moviesFromJson.find(movie =>
     movie.id === requestParamsMovie);
   console.log(foundMovie.title);
+  res.render("movie", foundMovie);
 });
-
-// server.get("/posts/:slug", (req, res) => {
-//   const requestParamsSlug = req.params.slug;
-//   //buscarla información
-//   const postData = posts.find(post => post.slug === requestParamsSlug);
-//   postData.catList = postData.categories.split(",");
-//   console.log(postData);
-//   res.render("post", postData);
-// });
-
 
 //servidores de estáticos
 const staticServerPath = "./src/public-react";
@@ -33,6 +28,8 @@ server.use(express.static(staticServerPath));
 
 const staticServerPathImages = "./src/public-movies-images";
 server.use(express.static(staticServerPathImages));
+
+// const staticStylesPath = "./src/public-react/static/css.css” "
 
 // init express aplication
 const serverPort = 4000;
