@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const moviesFromJson = require("./data/movies.json");
+// const moviesFromJson = require("./data/movies.json");
 const users = require("./data/users.json");
 const Database = require("better-sqlite3");
 
@@ -47,10 +47,13 @@ server.listen(serverPort, () => {
 //endpoint get movies
 
 server.get("/movies", (req, res) => {
-  const query = db.prepare("SELECT * FROM movies ORDER BY name");
+  const query = db.prepare("SELECT * FROM movies ORDER BY title");
   const allMovies = query.all();
-  console.log(allMovies);
-  // res.json(allMovies);
+  const response = {
+    success: true,
+    movies: allMovies,
+  };
+  res.json(response);
 });
 
 
