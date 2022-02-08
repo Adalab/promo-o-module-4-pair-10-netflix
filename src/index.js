@@ -47,23 +47,33 @@ server.listen(serverPort, () => {
 //endpoint get movies
 
 server.get("/movies", (req, res) => {
-  const query = db.prepare("SELECT * FROM movies ORDER BY title");
-  const allMovies = query.all();
-  const response = {
-    success: true,
-    movies: allMovies,
-  };
-  res.json(response);
+  const gender = req.query.gender;
+
+
+
+  if (!gender) {
+    const query = db.prepare("SELECT * FROM movies ORDER BY title");
+    const allMovies = query.all();
+    const response = {
+      success: true,
+      movies: allMovies,
+    };
+
+    res.json(response);
+
+  } else {
+    const query = db.prepare("SELECT * FROM movies WHERE gender = ?");
+    const genderMovies = query.all(gender);
+    const response = {
+      success: true,
+      movies: genderMovies,
+    };
+
+    res.json(response);
+  }
+
 });
 
-
-// server.get("/movies", (req, res) => {
-//   const response = {
-//     success: true,
-//     movies: moviesFromJson,
-//   };
-//   res.json(response);
-// });
 
 //endpoint get users
 server.post("/login", (req, res) => {
