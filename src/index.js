@@ -4,8 +4,10 @@ const cors = require("cors");
 const users = require("./data/users.json");
 const Database = require("better-sqlite3");
 
-
-
+//DUDAS 09FEB
+/// NO NOS FILTRA POR GÉNERO
+/// PORQUE TENEMOS A TODOS REGISTRADOS
+/// NO SOMOS CAPACES DE HACER NUEVO USUARIO
 
 // create and config server
 const server = express();
@@ -25,7 +27,36 @@ server.get('/movie/:movieId', (req, res) => {
   res.render("movie", foundMovie);
 });
 
-const db = new Database("./src/db/database.db", {});
+//endpoint newUser
+server.post('/sign-up', (req, res) => {
+  console.log(req.body);
+  const email = req.body.email;// "ivan'); DROP TABLES; //"
+  const password = req.body.password;
+  const query = db.prepare('SELECT * FROM users WHERE email = ?');
+  const foundUser = query.get(email);
+
+  console.log(foundUser);
+  if (foundUser === undefined) {
+    // La usxuaria no existe
+    const insertStmt = db.prepare('INSERT INTO users (email, password) VALUES (?, ?)');
+    const newRow = insertStmt.run(email, password);
+
+    res.json({
+      success: true,
+      userId: newRow.lastInsertRowid
+    });
+  }
+  else {
+    // La usuaria si que existe
+    res.json({
+      success: false,
+      errorMessage: "La usuaria ya existe!"
+    })
+  }
+})
+
+
+const db = new Database("./src/db/database.db", { verbose: console.log });
 
 
 //servidores de estáticos

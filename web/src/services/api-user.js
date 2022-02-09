@@ -19,18 +19,19 @@ const sendLoginToApi = (data) => {
 
 // signup
 
-const sendSingUpToApi = (info) => {
-  console.log("Se están enviando datos al signup:", info);
+const sendSingUpToApi = (data) => {
+  console.log("Se están enviando datos al signup:", data);
 
   // const bodyParams = {
   //   userEmail: data.email,
   //   userPassword: data.password,
   // }
   // CAMBIA ESTE FETCH PARA QUE APUNTE A UN ENDPOINT DE TU SERVIDOR, PIENSA SI DEBE SER GET O POST, PIENSA QUÉ DATOS DEBES ENVIAR, ETC
+
   return fetch(
-    "http://localhost:4000/sign-up", {
+    "//localhost:4000/sign-up", {
     method: "POST",
-    body: JSON.stringify(info),
+    body: JSON.stringify(data),
     headers: {
       "Content-Type": "application/json",
     },
