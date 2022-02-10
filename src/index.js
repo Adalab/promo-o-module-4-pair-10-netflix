@@ -4,11 +4,6 @@ const cors = require("cors");
 const users = require("./data/users.json");
 const Database = require("better-sqlite3");
 
-//DUDAS 09FEB
-/// NO NOS FILTRA POR GÉNERO
-/// PORQUE TENEMOS A TODOS REGISTRADOS
-/// NO SOMOS CAPACES DE HACER NUEVO USUARIO
-
 // create and config server
 const server = express();
 server.use(cors());
